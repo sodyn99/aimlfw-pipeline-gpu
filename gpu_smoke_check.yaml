@@ -1,0 +1,55 @@
+# PIPELINE DEFINITION
+# Name: gpu-smoke-check
+# Description: Smoke check to see whether GPU environment is ready.
+components:
+  comp-gpu-smoking-check:
+    executorLabel: exec-gpu-smoking-check
+deploymentSpec:
+  executors:
+    exec-gpu-smoking-check:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - gpu_smoking_check
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.9.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"\
+          $0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef gpu_smoking_check():\n    import subprocess\n    result = subprocess.run(['nvidia-smi'],\
+          \ capture_output=True, text=True)\n    print(result.stdout)\n\n"
+        image: traininghost/pipelinegpuimage:latest
+        resources:
+          accelerator:
+            count: '1'
+pipelineInfo:
+  description: Smoke check to see whether GPU environment is ready.
+  name: gpu-smoke-check
+root:
+  dag:
+    tasks:
+      gpu-smoking-check:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-gpu-smoking-check
+        taskInfo:
+          name: gpu-smoking-check
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.9.0
