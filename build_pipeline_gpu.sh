@@ -21,4 +21,4 @@ sudo buildctl --addr=nerdctl-container://buildkitd build \
     --opt filename=Dockerfile.pipeline_gpu \
     --local dockerfile=pipeline_gpu \
     --local context=pipeline_gpu \
-    --output type=docker,name=traininghost/pipelinegpuimage:latest | docker load
+    --output type=oci,name=traininghost/pipelinegpuimage:latest | sudo nerdctl load --namespace k8s.io
