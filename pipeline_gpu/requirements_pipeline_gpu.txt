@@ -16,12 +16,10 @@
 #
 # ==================================================================================
 
-# protobuf==3.20.1
-# tensorflow[and-cuda]==2.5.0
-# cassandra-driver==3.25.0
-# pandas==1.4.4
+# protobuf==4.25.3
+cassandra-driver==3.29.2
+pandas==2.2.3
 scikit-learn
 kubernetes
 boto3
 botocore
-jupyter

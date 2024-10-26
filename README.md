@@ -56,9 +56,13 @@
 - Pod GPU 사용 가능 확인
 
     ```bash
-    kubectl apply -f simple_deploy.yaml
+    kubectl apply -f simple_gpu_check.yaml
     ```
 
     ```bash
     kubectl exec -it gpu-pod -- /bin/bash -c "nvidia-smi"
+    ```
+
+    ```bash
+    kubectl exec -it gpu-pod -- /bin/bash -c "python3 -c \"import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))\""
     ```
