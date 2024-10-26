@@ -5,16 +5,16 @@ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dear
 
 sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
 
-# sudo nvidia-ctk runtime configure --runtime=docker
-# sudo systemctl restart docker
+# sudo nvidia-ctk runtime configure --runtime=containerd
+# sudo systemctl restart containerd
 
 # kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.16.2/deployments/static/nvidia-device-plugin.yml
 
-# kubectl delete -n kube-system daemonsets.apps/nvidia-device-plugin-daemonset
+# kubectl delete -n kube-system daemonset nvidia-device-plugin-daemonset
 
-helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
-helm repo update
-helm upgrade -i nvdp nvdp/nvidia-device-plugin \
-  --namespace nvidia-device-plugin \
-  --create-namespace \
-  --version 0.16.2
+# helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+# helm repo update
+# helm upgrade -i nvdp nvdp/nvidia-device-plugin \
+#   --namespace nvidia-device-plugin \
+#   --create-namespace \
+#   --version 0.16.2
