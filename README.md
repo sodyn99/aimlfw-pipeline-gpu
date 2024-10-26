@@ -18,13 +18,13 @@
   ```toml
       [plugins."io.containerd.grpc.v1.cri".containerd]
         default_runtime_name = "nvidia" # nvidia로 변경
-        ...
+        # 기타 설정 생략
 
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
 
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
-              BinaryName = "/usr/bin/nvidia-container-runtime"
-              ...
+          BinaryName = "/usr/bin/nvidia-container-runtime"
+          # 기타 설정 생략
 
         # 아래 내용 추가
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.env]
