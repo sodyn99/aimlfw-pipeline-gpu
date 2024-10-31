@@ -47,6 +47,12 @@
       kubectl delete -n kube-system daemonset nvidia-device-plugin-daemonset
       ```
 
+- pipeline-gpu 이미지 빌드
+
+  ```bash
+  ./build_pipeline_gpu.sh
+  ```
+
 - nerdctl GPU 사용 가능 확인
 
   ```bash
