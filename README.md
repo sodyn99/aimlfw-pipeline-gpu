@@ -1,11 +1,11 @@
 
-- nvidia-container-toolkit 설치
+- Install `nvidia-container-toolkit`
 
   ```bash
   ./setup_nvidia_toolkit.sh
   ```
 
-- containerd 설정
+- Configure `containerd`
 
   ```bash
   sudo nvidia-ctk runtime configure --runtime=containerd
@@ -35,31 +35,31 @@
   sudo systemctl restart containerd
   ```
 
-- nvidia-device-plugin 설치
+- Install `nvidia-device-plugin`
 
   ```bash
   kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.16.2/deployments/static/nvidia-device-plugin.yml
   ```
 
-    - nvidia-device-plugin 삭제
+    - Delete `nvidia-device-plugin`
 
       ```bash
       kubectl delete -n kube-system daemonset nvidia-device-plugin-daemonset
       ```
 
-- pipeline-gpu 이미지 빌드
+- Build `pipeline-gpu` image
 
   ```bash
   ./build_pipeline_gpu.sh
   ```
 
-- nerdctl GPU 사용 가능 확인
+- Check GPU usage with `nerdctl`
 
   ```bash
   sudo nerdctl run -it --rm --gpus all --namespace k8s.io -p 8888:8888 -v $(pwd):/app_run traininghost/pipelinegpuimage:latest /bin/bash -c "nvidia-smi"
   ```
 
-- Pod GPU 사용 가능 확인
+- Check GPU usage in Pod
 
     ```bash
     kubectl apply -f simple_gpu_check.yaml
